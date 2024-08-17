@@ -6,3 +6,9 @@ What ideas do we want to do with the theme built to scale?
     ???
     deliver planet to the customer
     profit!
+
+
+    request - active building - inspector
+    screen split
+
+    big ship it button?
