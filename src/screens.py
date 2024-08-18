@@ -74,6 +74,7 @@ class SubmitScreen(Entity):
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.shipit = Button(text="Ship it!",y=-.2, scale=.125, color=color.red, parent=self, on_click=self.evaluate_planet)
+        self.score_text = Text(y=.2, parent=self)
     
     def update(self):
         if Request.active_request == None:
@@ -83,7 +84,7 @@ class SubmitScreen(Entity):
     
     def evaluate_planet(self):
         score = Request.active_request.evaluate_planet()
-        Text(text=f'Customer rating of your planet: {score}', y=.2, parent=self)
+        self.score_text.text = f'Customer rating of your planet: {score}'
         # IDEA: color text based on score value?
 
     def on_enable(self):

@@ -71,6 +71,8 @@ class Request:
             value = getattr(self, criterion) #meat, plants, cone, cube
             score += self.evaluate_criteria(criterion, value)
         score /= len(self.order_criteria) # flat average should this be weighted?
+        Request.active_request = None
+        Request.fire_event("request_fullfilled", self, score)
         return score
     
     def evaluate_criteria(self, criterion, value):
