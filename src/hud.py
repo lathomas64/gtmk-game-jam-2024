@@ -17,6 +17,7 @@ class HUD(Entity):
                 ),
         )
         self.order_panel.layout();
+        self.order_panel.panel.scale_y = 5;
         self.total_score = 0 # can we do something with this?
 
     def input(self, key):

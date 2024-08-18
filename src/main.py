@@ -1,5 +1,5 @@
 ## Entry point into whatever game we make
-from ursina import *
+from UrsinaExts.extended_ursina import create_extended_ursina as Ursina
 from planet import *
 from hud import HUD
 from request import Request
