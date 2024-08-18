@@ -51,13 +51,20 @@ class CompositionScreen(Entity):
     
     def __init__(self, parent):
         super().__init__(parent=parent)
-        elemental_blocks = ["Alkali metals", "Transition metals", "radioactive", "Non-metals", "Halogens", "Metalloids", "Noble Gases"]
+        elemental_blocks = ["Alkali metals", "Transition metals", "Esoteric materials", "Non-metals", "Halogens", "Metalloids", "Noble Gases"]
         self.sliders = []
         for index in range(len(elemental_blocks)):
             slider = ThinSlider(0,100,parent=self,step=1,y=(index-1) * .07,text=elemental_blocks[index], dynamic=True, on_value_changed=Func(self.slider_changed, index))
             self.sliders.append(slider)
-        Button(text="accept",y=-.2, scale=.125, color=color.green, parent=self, on_click=parent.close_screen)
-        
+        Button(text="accept",y=-.2, scale=.125, color=color.green, parent=self, on_click=self.finalize)
+
+    def finalize(self):
+        planet = Planet.get_planet()
+        composition = {}
+        for slider in self.sliders:
+            composition[slider.label.text] = slider.value
+        planet.composition = composition
+        self.parent.close_screen() 
     def on_enable(self):
         pass 
     def on_disable(self):
