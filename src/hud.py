@@ -1,12 +1,12 @@
 from ursina import *
 from request import Request 
-from screens import AestheticScreen
+from screens import AestheticScreen, CompositionScreen
 
 class HUD(Entity):
     def __init__(self):
         super().__init__(parent=camera.ui)
         Request.register_listener(self.process_request_event)
-        self.screen = AestheticScreen()
+        self.screen = AestheticScreen(parent=self)
         self.order_panel = {}
         self.request_dict = {}
         self.request_list = ButtonList(self.request_dict, x=-.85, font='VeraMono.ttf', button_height=1.5, popup=0, clear_selected_on_enable=False)
@@ -24,5 +24,7 @@ class HUD(Entity):
             #DO STUFF WITH THE REQUEST
             self.request_dict[request.short_id()] = Func(self.display_request,request) # Do something on click later
             self.request_list.button_dict = self.request_dict
-            print(self.request_dict)
-            print(self.request_list.button_dict)
+    def close_screen(self):
+        if type(self.screen) == AestheticScreen:
+            self.screen.disable() #No going back we lose track of aesthetics. TODO fix that please
+            self.screen = CompositionScreen(parent=self)
