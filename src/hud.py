@@ -8,10 +8,16 @@ class HUD(Entity):
         super().__init__(parent=camera.ui)
         Request.register_listener(self.process_request_event)
         self.screen = AestheticScreen(parent=self)
-        self.order_panel = {}
         self.request_dict = {}
+        self.request_list = ButtonList(self.request_dict, font='VeraMono.ttf', button_height=1.5, popup=0, clear_selected_on_enable=False)
+        self.order_panel = WindowPanel(
+                title="Orders", x=-.85, y=.5, height=0.25,
+                content=(
+                    self.request_list,
+                ),
+        )
+        self.order_panel.layout();
         self.total_score = 0 # can we do something with this?
-        self.request_list = ButtonList(self.request_dict, x=-.85, font='VeraMono.ttf', button_height=1.5, popup=0, clear_selected_on_enable=False)
 
     def input(self, key):
         if key == "r": # for us to reset without resetting the game
