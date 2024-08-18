@@ -76,7 +76,8 @@ class SubmitScreen(Entity):
     
     def evaluate_planet(self):
         score = Request.active_request.evaluate_planet()
-        Text(text=f'Customer rating of your planet: {score}', y=.2)
+        Text(text=f'Customer rating of your planet: {score}', y=.2, parent=self)
+        # IDEA: color text based on score value?
 
     def on_enable(self):
         Planet.get_planet().enable()

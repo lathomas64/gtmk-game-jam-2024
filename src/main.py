@@ -8,7 +8,7 @@ if __name__ == "__main__":
     app = Ursina()
     ui = HUD()
     #world = Planet()
-    Request(1)
+    Request()
     window.borderless = False
     app.run()
 

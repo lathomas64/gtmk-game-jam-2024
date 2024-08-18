@@ -33,6 +33,9 @@ class Request:
             "mana":["A cradle of pure resonance, where the streams of life’s essence flow through invisible channels.",
                  "A sanctuary where the aether shivers with latent vibrations, overflowing with the taste of potential.",
                  "A realm where the air hums with unseen threads of boundless potential, ripe for the taking."]
+        },
+        "leisure": {
+            "beach": ["A space for glittering edifices overlooking vast planes of aquamarine."]
         }
     }
     def __init__(self, criteria_count = 2):
@@ -72,7 +75,17 @@ class Request:
     
     def evaluate_criteria(self, criterion, value):
         # Planet.get_planet() why pass it in?
-        return 50
+        planet = Planet.get_planet()
+        match criterion:
+            case "aesthetic":
+                if value == planet.shape:
+                    return 100
+                else:
+                    return 0
+            case "diet":
+                return 50
+            case _:
+                return 50
 
     @classmethod
     def fire_event(cls, event, *args):

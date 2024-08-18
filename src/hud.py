@@ -11,6 +11,10 @@ class HUD(Entity):
         self.request_dict = {}
         self.request_list = ButtonList(self.request_dict, x=-.85, font='VeraMono.ttf', button_height=1.5, popup=0, clear_selected_on_enable=False)
 
+    def input(self, key):
+        if key == "r": # for us to reset without resetting the game
+            self.screen.disable()
+            self.screen = AestheticScreen(parent=self)
 
     def display_request(self, request):
         self.request_list.disable()
