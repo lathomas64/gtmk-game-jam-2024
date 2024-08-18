@@ -1,6 +1,6 @@
 from ursina import *
 from request import Request 
-from screens import AestheticScreen, CompositionScreen
+from screens import AestheticScreen, CompositionScreen, SubmitScreen
 
 class HUD(Entity):
     def __init__(self):
@@ -14,8 +14,11 @@ class HUD(Entity):
 
     def display_request(self, request):
         self.request_list.disable()
-        a = Text(text=f'Order:\n{request.order_id}\nDetails:\n{request.description}',
+        Request.active_request = request
+        Text(text=f'Order:\n{request.order_id}\nDetails:\n{request.description}',
              x=window.left.x+.05, y=.45, wordwrap=50, origin=(-.5,.5))
+        # DO we want to switch to the aesthetic screen here?
+        # Do we want a way to go back to the list of requests?
 
     def process_request_event(self, *args):
         event = args[0]
@@ -28,3 +31,6 @@ class HUD(Entity):
         if type(self.screen) == AestheticScreen:
             self.screen.disable() #No going back we lose track of aesthetics. TODO fix that please
             self.screen = CompositionScreen(parent=self)
+        elif type(self.screen) == CompositionScreen:
+            self.screen.disable() 
+            self.screen = SubmitScreen(parent=self)

@@ -1,8 +1,10 @@
 import random
 import uuid
+from planet import Planet
 class Request:
     queue = []
     listeners = []
+    active_request = None
     criteria = {
         "aesthetic": {
             "sphere": ["A silent echo of curvature where every point is both beginning and end.",
@@ -60,8 +62,17 @@ class Request:
     def short_id(self):
         return hex(self.order_id.node)[2:].zfill(12)
 
-    def evaluate_planet(self, planet):
-        pass
+    def evaluate_planet(self):
+        score = 0
+        for criterion in self.order_criteria:
+            value = getattr(self, criterion) #meat, plants, cone, cube
+            score += self.evaluate_criteria(criterion, value)
+        score /= len(self.order_criteria) # flat average should this be weighted?
+        return score
+    
+    def evaluate_criteria(self, criterion, value):
+        # Planet.get_planet() why pass it in?
+        return 50
 
     @classmethod
     def fire_event(cls, event, *args):

@@ -1,5 +1,6 @@
 from ursina import *
 from planet import Planet
+from request import Request
 from ursina.prefabs.slider import ThinSlider
 
 # accept shape, change planet shape
@@ -53,10 +54,31 @@ class CompositionScreen(Entity):
         elemental_blocks = ["Alkali metals", "Transition metals", "radioactive", "Non-metals", "Halogens", "Metalloids", "Noble Gases"]
         self.sliders = []
         for index in range(len(elemental_blocks)):
-            slider = ThinSlider(0,100,step=1,y=(index-1) * .07,text=elemental_blocks[index], dynamic=True, on_value_changed=Func(self.slider_changed, index))
+            slider = ThinSlider(0,100,parent=self,step=1,y=(index-1) * .07,text=elemental_blocks[index], dynamic=True, on_value_changed=Func(self.slider_changed, index))
             self.sliders.append(slider)
+        Button(text="accept",y=-.2, scale=.125, color=color.green, parent=self, on_click=parent.close_screen)
         
     def on_enable(self):
         pass 
     def on_disable(self):
         pass
+
+class SubmitScreen(Entity):
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        self.shipit = Button(text="Ship it!",y=-.2, scale=.125, color=color.red, parent=self, on_click=self.evaluate_planet)
+    
+    def update(self):
+        if Request.active_request == None:
+            self.shipit.disable()
+        else:
+            self.shipit.enable()
+    
+    def evaluate_planet(self):
+        score = Request.active_request.evaluate_planet()
+        Text(text=f'Customer rating of your planet: {score}', y=.2)
+
+    def on_enable(self):
+        Planet.get_planet().enable()
+    def on_disable(self):
+        Planet.get_planet().disable()
