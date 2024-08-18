@@ -13,19 +13,19 @@ class TestPlanet(unittest.TestCase):
         io = Planet.get_planet()
         
         io.set_shape("cube")
-        self.assertEquals(str(io.model), 'render/scene/planet/cube')
+        self.assertEqual(str(io.model), 'render/scene/planet/cube')
 
         io.set_shape("sphere")
-        self.assertEquals(str(io.model), "sphere")
+        self.assertEqual(str(io.model), "sphere")
 
         io.set_shape("cone")
-        self.assertEquals(str(io.model), "mesh")
+        self.assertEqual(str(io.model), "mesh")
     
     def test_get_planet(self):
         mars = Planet.get_planet()
-        self.assertEquals(Planet.instance, mars)
-        self.assertEquals(str(mars.texture), str(load_texture("perlin_noise")))
+        self.assertEqual(Planet.instance, mars)
+        self.assertEqual(str(mars.texture), str(load_texture("perlin_noise")))
         mars.texture="grass"
         mars2 = Planet.get_planet()
-        self.assertEquals(mars, mars2)
-        self.assertEquals(str(mars2.texture), str(load_texture("grass")))
+        self.assertEqual(mars, mars2)
+        self.assertEqual(str(mars2.texture), str(load_texture("grass")))
