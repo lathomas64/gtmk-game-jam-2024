@@ -59,7 +59,6 @@ class Request:
             sentence = self.get_sentence(criterion, getattr(self, criterion))
             sentences.append(sentence)
         random.shuffle(sentences)
-        print(sentences)
         self.description = " ".join(sentences)
 
     def short_id(self):
