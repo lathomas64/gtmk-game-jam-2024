@@ -1,30 +1,39 @@
-from ursina.window import Window as UrsinaWindow
+from ursina import Vec2
 
-class ExtendedWindow(UrsinaWindow):
-    def __init__(self):
-        super().__init__()
-        self.size_change_listeners = []
+def extend_window(window):
+    def register_size_change_listener(self, listener):
+        if not hasattr(self, 'size_change_listeners'):
+            self.size_change_listeners = []
+        self.size_change_listeners.append(listener)
 
-    def register_size_change_listener(self, entity):
-        if entity not in self.size_change_listeners:
-            self.size_change_listeners.append(entity)
+    def unregister_size_change_listener(self, listener):
+        if hasattr(self, 'size_change_listeners'):
+            self.size_change_listeners.remove(listener)
 
-    def unregister_size_change_listener(self, entity):
-        if entity in self.size_change_listeners:
-            self.size_change_listeners.remove(entity)
+    def notify_size_change(self, new_size):
+        if hasattr(self, 'size_change_listeners'):
+            for listener in self.size_change_listeners:
+                listener(new_size)
+
+    window.register_size_change_listener = register_size_change_listener.__get__(window)
+    window.unregister_size_change_listener = unregister_size_change_listener.__get__(window)
+    window.notify_size_change = notify_size_change.__get__(window)
+
+    # Store the original size getter and setter
+    original_size_getter = window.__class__.size.fget
+    original_size_setter = window.__class__.size.fset
 
     @property
     def size(self):
-        return super().size
+        # Use the original getter to avoid recursion
+        return original_size_getter(self)
 
     @size.setter
     def size(self, value):
-        old_size = self.size
-        super(CustomWindow, self.__class__).size.fset(self, value)
-        if old_size != value:
-            self.notify_size_change(value)
+        # Use the original setter
+        original_size_setter(self, value)
+        # Notify listeners after the size has been set
+        self.notify_size_change(value)
 
-    def notify_size_change(self, new_size):
-        for entity in self.size_change_listeners:
-            if hasattr(entity, 'on_window_resize'):
-                entity.on_window_resize(new_size)
+    # Replace the size property
+    window.__class__.size = size

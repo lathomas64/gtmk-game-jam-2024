@@ -1,5 +1,4 @@
 from ursina.prefabs.window_panel import WindowPanel
-from UrsinaExts.extended_window import ExtendedWindow
 from ursina import window
 
 class ExtendedPanel(WindowPanel):
@@ -7,7 +6,8 @@ class ExtendedPanel(WindowPanel):
         super().__init__(**kwargs)
 
         window.register_size_change_listener(self)
-        self.percentage_x = kwargs.get('percentage_x', None)
+
+        self.percentage_width = kwargs.get('percentage_width', None)
 
     def on_window_resize(self, new_size):
         self.layout()
