@@ -30,8 +30,12 @@ class HUD(Entity):
         self.request_list.disable()
         Request.active_request = request
         # TODO use preexisting text element if it exists instead of creating a new one
+
         self.request_detail = Text(text=f'Order:\n{request.order_id}\nDetails:\n{request.description}',
-             x=window.left.x+.05, y=.45, wordwrap=50, origin=(-.5,.5))
+             x=window.left.x+.05, y=.45, wordwrap=34, origin=(-.5,.5))
+    
+        self.order_panel.content = (self.request_detail,)
+        self.order_panel.layout()
         # DO we want to switch to the aesthetic screen here?
 
     def process_request_event(self, *args):
