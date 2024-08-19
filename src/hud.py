@@ -45,8 +45,9 @@ class HUD(Entity):
             request = args[1]
             score = args[2]
             self.total_score += score
-            for _ in range(random.randint(1,3)):
-                Request(random.randint(1,3))
+            if len(self.request_dict) <= 4:
+                for _ in range(random.randint(1,3)):
+                    Request(random.randint(1,3))
             del self.request_dict[request.short_id()]
             self.request_list.button_dict = self.request_dict
             self.request_detail.disable()
@@ -58,3 +59,6 @@ class HUD(Entity):
         elif type(self.screen) == CompositionScreen:
             self.screen.disable() 
             self.screen = SubmitScreen(parent=self)
+        elif type(self.screen) == SubmitScreen:
+            self.screen.disable()
+            self.screen = AestheticScreen(parent=self)

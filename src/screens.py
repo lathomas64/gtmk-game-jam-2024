@@ -74,10 +74,11 @@ class SubmitScreen(Entity):
     def __init__(self, parent):
         super().__init__(parent=parent)
         self.shipit = Button(text="Ship it!",y=-.2, scale=.125, color=color.red, parent=self, on_click=self.evaluate_planet)
-        self.score_text = Text(y=.2, parent=self)
+        self.newplanet = Button(text="New Planet",y=-.2, scale=.125, parent=self, on_click=self.parent.close_screen, enabled=False)
+        self.score_text = Text(y=.2, parent=self, enabled=False)
     
     def update(self):
-        if Request.active_request == None:
+        if self.newplanet.enabled or Request.active_request == None:
             self.shipit.disable()
         else:
             self.shipit.enable()
@@ -85,7 +86,9 @@ class SubmitScreen(Entity):
     def evaluate_planet(self):
         score = Request.active_request.evaluate_planet()
         self.score_text.text = f'Customer rating of your planet: {score}'
+        self.score_text.enable()
         # IDEA: color text based on score value?
+        self.newplanet.enable()
 
     def on_enable(self):
         Planet.get_planet().enable()
