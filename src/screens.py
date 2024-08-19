@@ -1,8 +1,9 @@
 from ursina import *
+from UrsinaExts.extended_panel import ExtendedPanel as WindowPanel
 from planet import Planet
 from request import Request
 from ursina.prefabs.slider import ThinSlider
-from UrsinaExts.extended_panel import ExtendedPanel
+#from UrsinaExts.extended_panel import ExtendedPanel
 
 # accept shape, change planet shape
 class AestheticScreen(Entity):
@@ -83,18 +84,16 @@ class BuildScreen(Entity):
         print("tool list position:", self.tool_list.position)
         self.tool_list.x = -1
         print("tool list position:", self.tool_list.position)
-        self.tool_panel = ExtendedPanel(
-            title="Tools",height=0.25, percentage_y=0, percentage_x=0,
+        self.tool_panel = WindowPanel(
+            title="Tools",height=0.25, percentage_y=0, percentage_x=70,
             content=(
                 self.tool_list,
             )
         )
-        self.tool_panel.layout()
         self.tool_panel.panel.scale_y = 5
-        #self.tool_panel.panel.origin = (-.5,.5)
         print("tool_panel bounds:", self.tool_panel.getTightBounds())
         self.inspector_panel = WindowPanel(
-            title="Inspector", y=.2, height=.25, x=.7,
+            title="Inspector", percentage_y=50, height=.25, percentage_x=70,
             content=(
                 [Text(text="Inspection Details here...")]
             )
