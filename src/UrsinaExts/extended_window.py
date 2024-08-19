@@ -11,6 +11,7 @@ def extend_window(window):
             self.size_change_listeners.remove(listener)
 
     def notify_size_change(self, new_size):
+        print("Notifying size change listeners")
         if hasattr(self, 'size_change_listeners'):
             for listener in self.size_change_listeners:
                 listener(new_size)
@@ -20,20 +21,17 @@ def extend_window(window):
     window.notify_size_change = notify_size_change.__get__(window)
 
     # Store the original size getter and setter
-    original_size_getter = window.__class__.size.fget
-    original_size_setter = window.__class__.size.fset
+    original_size = window.__class__.size
 
-    @property
-    def size(self):
-        # Use the original getter to avoid recursion
-        return original_size_getter(self)
+    def size_getter(self):
+        return original_size.__get__(self)
 
-    @size.setter
-    def size(self, value):
-        # Use the original setter
-        original_size_setter(self, value)
-        # Notify listeners after the size has been set
+    def size_setter(self, value):
+        original_size.__set__(self, value)
         self.notify_size_change(value)
 
-    # Replace the size property
-    window.__class__.size = size
+    # Create a new property with our custom getter and setter
+    new_size_property = property(size_getter, size_setter)
+
+    # Set the new property on the window instance
+    setattr(window.__class__, 'size', new_size_property)

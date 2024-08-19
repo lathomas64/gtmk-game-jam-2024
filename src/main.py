@@ -9,8 +9,7 @@ if __name__ == "__main__":
     ui = HUD()
     #world = Planet()
     Request()
-    window.borderless = False
-    app.run()
 
-    camera.ui_lens.set_film_size(window.getXSize(), window.getYSize())
-    camera.ui_lens.set_film_offset(window.width / 2, window.height / 2)
+    window.borderless = False
+
+    app.run()

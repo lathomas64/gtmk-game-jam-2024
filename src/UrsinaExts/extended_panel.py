@@ -1,5 +1,6 @@
 from ursina.prefabs.window_panel import WindowPanel
-from ursina import window
+from ursina import window, ThinSlider, camera
+from ui_utils import percentage_to_x_coordinate, percentage_to_y_coordinate
 
 class ExtendedPanel(WindowPanel):
     def __init__(self, **kwargs):
@@ -7,7 +8,8 @@ class ExtendedPanel(WindowPanel):
 
         window.register_size_change_listener(self)
 
-        self.percentage_width = kwargs.get('percentage_width', None)
+        self.percentage_x = kwargs.get('percentage_x', None)
+        self.percentage_y = kwargs.get('percentage_y', None)
 
     def on_window_resize(self, new_size):
         self.layout()
@@ -17,6 +19,8 @@ class ExtendedPanel(WindowPanel):
 
     def layout(self):
         super().layout()
-        if (self.percentage_x):
-            self.x = self.percentage_x * window.size[0]
-        
+        self.x = percentage_to_x_coordinate(self.percentage_x) if self.percentage_x is not None else self.x 
+        self.x += window.aspect_ratio * (self.world_scale_x / 36) / 2
+        self.y = percentage_to_y_coordinate(self.percentage_y) if self.percentage_y is not None else self.y
+        print (self.x)
+

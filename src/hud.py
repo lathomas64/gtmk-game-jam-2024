@@ -12,7 +12,7 @@ class HUD(Entity):
         self.request_dict = {}
         self.request_list = ButtonList(self.request_dict, font='VeraMono.ttf', button_height=1.5, popup=0, clear_selected_on_enable=False)
         self.order_panel = WindowPanel(
-                title="Orders", y=.5, height=0.25, percentage_x=0,
+                title="Orders", percentage_y=0,  percentage_x=0,
                 content=(
                     self.request_list,
                 ),
