@@ -4,12 +4,11 @@ from ui_utils import percentage_to_x_coordinate, percentage_to_y_coordinate
 
 class ExtendedPanel(WindowPanel):
     def __init__(self, **kwargs):
+        self.percentage_x = kwargs.get('percentage_x', None)
+        self.percentage_y = kwargs.get('percentage_y', None)
         super().__init__(**kwargs)
 
         window.register_size_change_listener(self)
-
-        self.percentage_x = kwargs.get('percentage_x', None)
-        self.percentage_y = kwargs.get('percentage_y', None)
 
     def on_window_resize(self, new_size):
         self.layout()

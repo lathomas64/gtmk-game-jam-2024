@@ -84,7 +84,7 @@ class BuildScreen(Entity):
         self.tool_list.x = -1
         print("tool list position:", self.tool_list.position)
         self.tool_panel = ExtendedPanel(
-            title="Tools", y=.5, height=0.25, x=.7,
+            title="Tools",height=0.25, percentage_y=0, percentage_x=0,
             content=(
                 self.tool_list,
             )
