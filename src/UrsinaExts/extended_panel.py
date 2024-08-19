@@ -19,15 +19,16 @@ class ExtendedPanel(WindowPanel):
 
     def layout(self):
         super().layout()
+        print("panel width:", self.text_entity.width)
         for c in self.content:
             if isinstance(c, ButtonList):
                 c.x = -.5 # Magic Numbers for Ada
         print(self.x, self.percentage_x, self.percentage_x is not None)
         print(percentage_to_x_coordinate(self.percentage_x))
         self.x = percentage_to_x_coordinate(self.percentage_x) if self.percentage_x is not None else self.x 
-        print(self.x)
-        self.x += window.aspect_ratio * (self.world_scale_x / 36) / 2
-        print(self.x)
+        #self.x += (window.aspect_ratio * (self.world_scale_x / 36)) / 2
+        self.x += 3 * self.text_entity.width
         self.y = percentage_to_y_coordinate(self.percentage_y) if self.percentage_y is not None else self.y
+        self.panel.scale_y = 5
         #print (self.x)
 
