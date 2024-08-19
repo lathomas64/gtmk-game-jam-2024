@@ -1,7 +1,7 @@
 from ursina import *
 from UrsinaExts.extended_panel import ExtendedPanel as WindowPanel
 from request import Request 
-from screens import AestheticScreen, CompositionScreen, SubmitScreen
+from screens import AestheticScreen, CompositionScreen, BuildScreen, SubmitScreen
 import random
 
 class HUD(Entity):
@@ -58,7 +58,7 @@ class HUD(Entity):
             self.screen = CompositionScreen(parent=self)
         elif type(self.screen) == CompositionScreen:
             self.screen.disable() 
-            self.screen = SubmitScreen(parent=self)
+            self.screen = BuildScreen(parent=self)
         elif type(self.screen) == SubmitScreen:
             self.screen.disable()
             self.screen = AestheticScreen(parent=self)

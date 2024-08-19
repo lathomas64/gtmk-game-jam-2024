@@ -2,6 +2,7 @@ from ursina import *
 from planet import Planet
 from request import Request
 from ursina.prefabs.slider import ThinSlider
+from UrsinaExts.extended_panel import ExtendedPanel
 
 # accept shape, change planet shape
 class AestheticScreen(Entity):
@@ -69,6 +70,40 @@ class CompositionScreen(Entity):
         pass 
     def on_disable(self):
         pass
+
+class BuildScreen(Entity):
+    def __init__(self, parent):
+        super().__init__(parent=parent)
+        self.tool_dict = {
+            "Atmosphere Generator": Func(print, "atmosphere generator clicked"),
+            "Aetheric Condensor": Func(print, "Aetheric Condensor Built"),
+            "Primordial Cauldron": Func(print, "Primordial Cauldron clicked.")
+        }
+        self.tool_list = ButtonList(self.tool_dict,font='VeraMono.ttf',origin=(-.5,0), button_height=1.5, popup=0, clear_selected_on_enable=False)
+        print("tool list position:", self.tool_list.position)
+        self.tool_list.x = -1
+        print("tool list position:", self.tool_list.position)
+        self.tool_panel = ExtendedPanel(
+            title="Tools", y=.5, height=0.25, x=.7,
+            content=(
+                self.tool_list,
+            )
+        )
+        self.tool_panel.layout()
+        self.tool_panel.panel.scale_y = 5
+        #self.tool_panel.panel.origin = (-.5,.5)
+        print("tool_panel bounds:", self.tool_panel.getTightBounds())
+        self.inspector_panel = WindowPanel(
+            title="Inspector", y=.2, height=.25, x=.7,
+            content=(
+                [Text(text="Inspection Details here...")]
+            )
+        )
+
+    def on_enable(self):
+        planet = Planet.get_planet()
+        planet.enable()
+
 
 class SubmitScreen(Entity):
     def __init__(self, parent):
