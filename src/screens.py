@@ -99,24 +99,9 @@ class BuildScreen(Entity):
                 [Text(text="Inspection Details here...")]
             )
         )
-
-    def on_enable(self):
-        planet = Planet.get_planet()
-        planet.enable()
-
-
-class SubmitScreen(Entity):
-    def __init__(self, parent):
-        super().__init__(parent=parent)
         self.shipit = Button(text="Ship it!",y=-.2, scale=.125, color=color.red, parent=self, on_click=self.evaluate_planet)
         self.newplanet = Button(text="New Planet",y=-.2, scale=.125, parent=self, on_click=self.parent.close_screen, enabled=False)
         self.score_text = Text(y=.2, parent=self, enabled=False)
-    
-    def update(self):
-        if self.newplanet.enabled or Request.active_request == None:
-            self.shipit.disable()
-        else:
-            self.shipit.enable()
     
     def evaluate_planet(self):
         score = Request.active_request.evaluate_planet()
@@ -126,6 +111,11 @@ class SubmitScreen(Entity):
         self.newplanet.enable()
 
     def on_enable(self):
-        Planet.get_planet().enable()
-    def on_disable(self):
-        Planet.get_planet().disable()
+        planet = Planet.get_planet()
+        planet.enable()
+    
+    def update(self):
+        if self.newplanet.enabled or Request.active_request == None:
+            self.shipit.disable()
+        else:
+            self.shipit.enable()
