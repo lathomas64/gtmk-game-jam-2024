@@ -75,10 +75,11 @@ class CompositionScreen(Entity):
 class BuildScreen(Entity):
     def __init__(self, parent):
         super().__init__(parent=parent)
+        self.planet = Planet.get_planet()
         self.tool_dict = {
-            "Atmosphere Generator": Func(print, "atmosphere generator clicked"),
-            "Aetheric Condensor": Func(print, "Aetheric Condensor Built"),
-            "Primordial Cauldron": Func(print, "Primordial Cauldron clicked.")
+            "Atmosphere Generator": Func(self.planet.add_building, "atmosphere_generator"),
+            "Aetheric Condensor": Func(self.planet.add_building, "aetheric_condensor"),
+            "Primordial Cauldron": Func(self.planet.add_building, "primordial_cauldron")
         }
         self.tool_list = ButtonList(self.tool_dict,font='VeraMono.ttf',origin=(-.5,0), button_height=1.5, popup=0, clear_selected_on_enable=False)
         print("tool list position:", self.tool_list.position)
