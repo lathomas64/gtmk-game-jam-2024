@@ -25,6 +25,10 @@ class HUD(Entity):
         if key == "r": # for us to reset without resetting the game
             self.screen.disable()
             self.screen = AestheticScreen(parent=self)
+        if key == "escape":
+            self.request_detail.disable()
+            self.request_list.enable()
+            Request.active_request = None
 
     def display_request(self, request):
         self.request_list.disable()
