@@ -84,7 +84,17 @@ class Request:
                 else:
                     return 0
             case "diet":
-                return 50
+                match value:
+                    case "meat":
+                        return min(100, planet.biomass/100)
+                    case "plants":
+                        return min(100, planet.biomass/10)
+                    case "dead":
+                        return min(100, planet.biomass/100)
+                    case "minerals":
+                        return 50 #Not sure what to do here?
+                    case "mana":
+                        return min(100, planet.composition["Esoteric materials"] * planet.aether/1000)
             case _:
                 return 50
 

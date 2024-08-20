@@ -20,8 +20,6 @@ class Planet(Entity):
             self.aether += time.dt * self.buildings["aetheric_condensor"]
         if "primordial_cauldron" in self.buildings:
             self.biomass += time.dt * self.buildings["primordial_cauldron"]
-        if len(self.buildings) > 0:
-            print(self.atmosphere, self.aether, self.biomass)
     
     def set_shape(self, shape):
         self.shape = shape
