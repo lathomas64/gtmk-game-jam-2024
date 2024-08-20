@@ -86,20 +86,22 @@ class BuildScreen(Entity):
         self.tool_list.x = -1
         print("tool list position:", self.tool_list.position)
         self.tool_panel = WindowPanel(
-            title="Tools",height=0.25, percentage_y=0, percentage_x=70,
+            title="Tools",height=0.25, percentage_y=0, percentage_x=70, parent=self,
             content=(
                 self.tool_list,
             )
         )
         self.tool_panel.panel.scale_y = 5
         print("tool_panel bounds:", self.tool_panel.getTightBounds())
+        self.inspector_text = Text(text="Inspection Details here...")
         self.inspector_panel = WindowPanel(
-            title="Inspector", percentage_y=50, height=.25, percentage_x=70,
+            title="Inspector", percentage_y=50, height=.25, percentage_x=70, parent=self,
             content=(
-                [Text(text="Inspection Details here...")]
+                [self.inspector_text]
             )
         )
         self.shipit = Button(text="Ship it!",y=-.2, scale=.125, color=color.red, parent=self, on_click=self.evaluate_planet)
+        # TODO planet still has buildings and resources of old planet. potentia
         self.newplanet = Button(text="New Planet",y=-.2, scale=.125, parent=self, on_click=self.parent.close_screen, enabled=False)
         self.score_text = Text(y=.2, parent=self, enabled=False)
     
@@ -113,9 +115,21 @@ class BuildScreen(Entity):
     def on_enable(self):
         planet = Planet.get_planet()
         planet.enable()
+    def on_disable(self):
+        self.planet.disable()
+        self.planet.reset_resources()
+        
     
     def update(self):
         if self.newplanet.enabled or Request.active_request == None:
             self.shipit.disable()
         else:
             self.shipit.enable()
+        planet_detail = ""
+        if self.planet.atmosphere > 1:
+            planet_detail += f"Atmosphere:{self.planet.atmosphere:.{4}}\n"
+        if self.planet.aether > 1:
+            planet_detail += f"Aether:{self.planet.aether:.{4}}\n"
+        if self.planet.biomass > 1:
+            planet_detail += f"Biomass:{self.planet.biomass:.{4}}\n"
+        self.inspector_text.text = planet_detail

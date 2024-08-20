@@ -36,7 +36,12 @@ class Planet(Entity):
             self.buildings[name] = 1
         else:
             self.buildings[name] += 1
-
+    def reset_resources(self):
+        self.buildings = {}
+        self.atmosphere = 0
+        self.aether = 0
+        self.biomass = 0
+        #TODO maybe a resources dictionary like buildings?
     @classmethod
     def get_planet(cls):
         if cls.instance == None:
