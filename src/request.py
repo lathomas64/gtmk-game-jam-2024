@@ -94,7 +94,7 @@ class Request:
                     case "minerals":
                         return 50 #Not sure what to do here?
                     case "mana":
-                        return min(100, planet.composition["Esoteric materials"] * planet.aether/1000)
+                        return min(100, planet.composition["Esoteric materials"] * planet.aether/100)
             case _:
                 return 50
 
