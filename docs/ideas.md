@@ -12,3 +12,5 @@ What ideas do we want to do with the theme built to scale?
     screen split
 
     big ship it button?
+
+and not just the obvious ones,
